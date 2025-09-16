@@ -1,5 +1,6 @@
 ﻿using HelperUtilities;
 using InhertianceMapping.Data;
+using InhertianceMapping.Data.Modals;
 
 namespace InhertianceMapping
 {
@@ -7,15 +8,25 @@ namespace InhertianceMapping
     {
         static void Main(string[] args)
         {
-           using var context = new MyCompanyDbContext();
+            using var context = new MyCompanyDbContext();
 
-            var partTime = from e in context.PartTimeEmployees
-                           select e;
-            partTime.PrintAll();
+            #region TPCC
+            /// var partTime = from e in context.PartTimeEmployees
+            ///                select e;
+            /// partTime.PrintAll();
+            /// 
+            /// var fullTime = from e in context.FullTimeEmployees
+            ///                select e;
+            /// fullTime.PrintAll(); 
+            #endregion
 
-            var fullTime = from e in context.FullTimeEmployees
-                           select e;
-            fullTime.PrintAll();
+            #region TPH
+            /// var emp = context.Employees;
+            /// emp.OfType<PartTimeEmployee>().PrintAll();
+            /// emp.OfType<FullTimeEmployee>().PrintAll();
+            #endregion
+
+
         }
     }
 }
