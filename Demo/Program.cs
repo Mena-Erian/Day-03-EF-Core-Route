@@ -197,6 +197,60 @@ namespace Demo
             /// }
             #endregion
 
+            #region Join Operators
+            /// var result = context.Departments // outer
+            ///                     .Join(context.Instructors // inner
+            ///                           , dept => dept.Id
+            ///                           , ins => ins.DepartmentId
+            ///                           , (dept, ins) => new
+            ///                           {
+            ///                               DeptId = dept.Id,
+            ///                               DeptName = dept.Name,
+            ///                               InsName = ins.Name,
+            ///                               InsId = ins.Id
+            ///                           });
+            /// 
+            /// result = from Dept in context.Departments
+            ///          join Ins in context.Instructors
+            ///          on Dept.Id equals Ins.DepartmentId
+            ///          select new
+            ///          {
+            ///              DeptId = Dept.Id,
+            ///              DeptName = Dept.Name,
+            ///              InsName = Ins.Name,
+            ///              InsId = Ins.Id
+            ///          };
+
+            /// var result = context.Instructors // outer
+            ///                     .Join(context.Departments,
+            ///                           ins => ins.Id,
+            ///                           dept => dept.InsMngId,
+            ///                           (ins, dept) =>
+            ///                           new
+            ///                           {
+            ///                               DeptId = dept.Id,
+            ///                               DeptManged = dept.Name,
+            ///                               InsManager = ins.Name,
+            ///                               InsId = ins.Id
+            ///                           });
+            /// 
+            /// 
+            /// result = from ins in context.Instructors
+            ///          join dept in context.Departments
+            ///          on ins.Id equals dept.InsMngId
+            ///          select new
+            ///          {
+            ///              DeptId = dept.Id,
+            ///              DeptManged = dept.Name,
+            ///              InsManager = ins.Name,
+            ///              InsId = ins.Id
+            ///          };
+            /// 
+            /// result.PrintAll();
+            #endregion
+
+
+
         }
     }
 }
