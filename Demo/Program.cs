@@ -422,7 +422,34 @@ namespace Demo
             /// result.PrintAll();
             #endregion
 
-
+            #region Cross Join
+            /// var result = from ins in context.Instructors
+            ///              from dept in context.Departments
+            ///              select new
+            ///              {
+            ///                  deptName = dept.Name,
+            ///                  ins.Name
+            ///              };
+            /// 
+            /// result = context.Instructors
+            ///                 .SelectMany(ins => context.Departments.Select(
+            ///                  dept => new
+            ///                  {
+            ///                      deptName = dept.Name,
+            ///                      ins.Name
+            ///                  }));
+            /// 
+            /// 
+            /// result = context.Instructors
+            ///                 .SelectMany(ins => context.Departments,
+            ///                 (ins, dept) => new
+            ///                 {
+            ///                     deptName = dept.Name,
+            ///                     ins.Name
+            ///                 });
+            /// 
+            /// result.PrintAll();
+            #endregion
 
         }
     }
