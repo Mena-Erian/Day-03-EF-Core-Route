@@ -451,6 +451,44 @@ namespace Demo
             /// result.PrintAll();
             #endregion
 
+            #region Try To Reed Data Using Explicit Loading, Lazy Loading, Egar
+
+            #region Explicit Loading
+            /// var ins = context.Instructors.Find(9);
+            /// 
+            /// if (ins is not null)
+            /// {
+            ///     context.Entry(ins).Reference(i => i.Department).Load();
+            /// 
+            ///     ins.Department.Print();
+            /// }
+
+            /// var dept = context.Departments.Find(90);
+            /// 
+            /// if (dept is not null)
+            /// {
+            ///     context.Entry(dept).Collection(d => d.Instructors).Query().Where(i=> i.Id > 18 && i.Id <= 44).Load();
+            ///     dept.Instructors.PrintAll();
+            /// }
+            #endregion
+
+            #region Lazy Loading
+            /// var dept = context.Departments.FirstOrDefault(d => d.Id == 90);
+            /// 
+            /// if (dept is not null)
+            /// {
+            ///     dept.Instructors.PrintAll();
+            /// }
+            #endregion
+
+            #region Egar Loading
+            /// var ins = context.Instructors.Include(d => d.Department).ThenInclude(d => d.InsManager).First();
+            /// ins.Department.Print();
+            /// ins.Department.InsManager.Print();
+            #endregion
+
+            #endregion
+
         }
     }
 }
