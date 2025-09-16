@@ -131,8 +131,52 @@ namespace Demo
 
             #endregion
 
+            #region Explicit Loading
+            // 2 Request
+
+            /// var ins = context.Instructors.FirstOrDefault(i => i.Id ==5);
+            ///
+            /// if (ins is not null)
+            /// {
+            ///     ins.Name.Print();
+            ///     ins.DepartmentId.Print();
+            ///
+            ///
+            ///     // Explicit Loading
+            ///     context.Entry(ins).Reference(ins => ins.Department).Load();
+            ///     ins.Department?.Print();
+            /// }
 
 
+            /// var dept = context.Departments.FirstOrDefault(i => i.Id == 50);
+            /// 
+            /// if (dept is not null)
+            /// {
+            ///     dept?.Name.Print();
+            ///     dept?.Id.Print();
+            /// 
+            ///     context.Entry(dept).Collection(d => d.Instructors).Load();
+            /// 
+            /// 
+            ///     dept.Instructors.PrintAll();
+            /// }
+
+            /// var dept = context.Departments.FirstOrDefault(i => i.Id == 50);
+            /// 
+            /// if (dept is not null)
+            /// {
+            ///     dept?.Name.Print();
+            ///     dept?.Id.Print();
+            /// 
+            ///     context.Entry(dept).Collection(d => d.Instructors).Query().Where(ins => ins.Id > 20).Load();
+            /// 
+            /// 
+            ///     dept.Instructors.PrintAll();
+            /// }
+
+            #endregion
+
+           
         }
     }
 }
