@@ -147,7 +147,6 @@ namespace Demo
             ///     ins.Department?.Print();
             /// }
 
-
             /// var dept = context.Departments.FirstOrDefault(i => i.Id == 50);
             /// 
             /// if (dept is not null)
@@ -176,7 +175,28 @@ namespace Demo
 
             #endregion
 
-           
+            #region Lazy Loading
+            // work implicitly like Explicit Loading (2 Requst)
+
+            /// var Ins = context.Departments
+            ///                  //.Include(d => d.Instructors)
+            ///                  //.Include(d=> d.Students)
+            ///                  .FirstOrDefault(d => d.Name == "HR");
+            /// if (Ins is not null)
+            /// {
+            ///     Ins.Name.Print();
+            ///     Ins.Instructors.PrintAll();
+            /// }
+
+            /// var dept = context.Departments.FirstOrDefault(d => d.Id == 90);
+            /// 
+            /// if (dept is not null)
+            /// {
+            ///     dept.Name.Print();
+            ///     dept.Instructors.PrintAll();
+            /// }
+            #endregion
+
         }
     }
 }

@@ -13,10 +13,10 @@ namespace Demo.Data.Models
         public int InstructorId { get; set; }
         public DateOnly HiringDate { get; set; }
 
-        public ICollection<Instructor> Instructors { get; set; } = new HashSet<Instructor>();
-        public ICollection<Student> Students { get; set; } = new HashSet<Student>();
+        public virtual ICollection<Instructor> Instructors { get; set; } = new HashSet<Instructor>();
+        public virtual ICollection<Student> Students { get; set; } = new HashSet<Student>();
 
-        public Instructor InsManager { get; set; }
+        public virtual Instructor InsManager { get; set; }
         public int? InsMngId { get; set; } //Fk
 
         public override string ToString()

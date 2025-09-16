@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Castle.DynamicProxy;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//[assembly: InternalsVisibleTo("DynamicProxyExceptionGenAssembly2")]
 namespace Demo.Data.Models
 {
     public class Topic
@@ -19,7 +22,7 @@ namespace Demo.Data.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public ICollection<Course> Courses { get; set; }
+        public virtual ICollection<Course> Courses { get; set; }
 
         public override string ToString()
             => $"Id: {Id}, Name: {Name}";

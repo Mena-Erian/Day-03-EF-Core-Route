@@ -20,14 +20,13 @@ namespace Demo.Data.Models
         public Address Address { get; set; }
         public int? HourRate { get; set; }
 
-        public Department Department { get; set; }
+        public virtual Department Department { get; set; }
         public int DepartmentId { get; set; }
 
 
-        public ICollection<CourseInstructor> CourseInstructors { get; set; } = new HashSet<CourseInstructor>();
+        public virtual ICollection<CourseInstructor> CourseInstructors { get; set; } = new HashSet<CourseInstructor>();
 
-
-        public Department? ManagedDepartment { get; set; }
+        public virtual Department? ManagedDepartment { get; set; }
 
         public override string ToString()
             => $"Id: {Id}, Name: {Name}, Bouns: {Bouns}, Salary: {Salary}, Address: {Address}, HourRate: {HourRate}, DepartmentId: {DepartmentId}";

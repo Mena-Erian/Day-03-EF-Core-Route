@@ -13,7 +13,7 @@ namespace Demo.Data.Models
         public int Evaluation { get; set; }
 
 
-        public Course Course { get; set; }
-        public Instructor Instructor { get; set; }
+        public virtual Course Course { get; set; }
+        public virtual Instructor Instructor { get; set; }
     }
 }

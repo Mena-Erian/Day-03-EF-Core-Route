@@ -15,9 +15,9 @@ namespace Demo.Data.Models
         public int Age { get; set; }
 
         public int DeptId { get; set; }
-        public Department Department { get; set; }
+        public virtual Department Department { get; set; }
 
-        public ICollection<StudCourse> StudCourses { get; set; } = new HashSet<StudCourse>();
+        public virtual ICollection<StudCourse> StudCourses { get; set; } = new HashSet<StudCourse>();
         public override string ToString()
             => $"Id: {Id}, FName: {FName}, LName: {LName}, Address: {Address}, Age: {Age}, DeptId: {DeptId}";
     }
