@@ -4,6 +4,7 @@ using Demo.Data.Models;
 using HelperUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Xml.Linq;
 
 namespace Demo
 {
@@ -249,7 +250,101 @@ namespace Demo
             /// result.PrintAll();
             #endregion
 
+            #region Group Join
 
+            /// //Left Outer Join
+            /// var result = context.Departments.GroupJoin(
+            ///                                  context.Instructors,
+            ///                                  dept => dept.Id,
+            ///                                  ins => ins.DepartmentId,
+            ///                                  (dept, inss) => new
+            ///                                  {
+            ///                                      Department = dept,
+            ///                                      Instructors = inss
+            ///                                  }).ToLookup(a => a.Department, a => a.Instructors);
+            /// 
+            /// result = (from dept in context.Departments
+            ///           join ins in context.Instructors
+            ///           on dept.Id equals ins.DepartmentId
+            ///           into inss
+            ///           select new
+            ///           {
+            ///               Department = dept,
+            ///               Instructors = inss
+            ///           }).ToLookup(a => a.Department, a => a.Instructors);
+            /// 
+            /// 
+            /// foreach (var item in result)
+            /// {
+            ///     Console.Write("Key: "); item.Key.Print();
+            ///     Console.WriteLine("Elements: ");
+            ///     foreach (var std in item) std.PrintAll();
+            ///     Console.WriteLine("------------------------------------\n");
+            /// }
+
+            /// var result = context.Instructors.GroupJoin(
+            ///                                  context.Departments,
+            ///                                  ins => ins.DepartmentId,
+            ///                                  dept => dept.Id,
+            ///                             (ins, depts) =>
+            ///                                  new
+            ///                                  {
+            ///                                      Instructor = ins,
+            ///                                      Departments = depts
+            ///                                  }
+            /// 
+            ///     ).ToLookup(a => a.Instructor, a => a.Departments);
+            /// 
+            /// result = (from ins in context.Instructors
+            ///           join dept in context.Departments
+            ///           on ins.DepartmentId equals dept.Id
+            ///           into depts
+            ///           select new
+            ///           {
+            ///               Instructor = ins,
+            ///               Departments = depts
+            ///           }).ToLookup(a => a.Instructor, a => a.Departments);
+            /// 
+            /// foreach (var item in result)
+            /// {
+            ///     Console.Write("Key: "); item.Key.Print();
+            ///     Console.WriteLine("Elements: ");
+            ///     foreach (var std in item) std.PrintAll();
+            ///     Console.WriteLine("------------------------------------\n");
+            /// }
+
+
+            var result = context.Departments.GroupJoin(
+                                             context.Instructors,
+                                             dept => dept.Id,
+                                             ins => ins.DepartmentId,
+                                             (dept, inss) => new
+                                             {
+                                                 Department = dept,
+                                                 Instructors = inss
+                                             }).Where(a => a.Instructors.Count() > 2).ToLookup(a => a.Department, a => a.Instructors);
+
+            result = (from dept in context.Departments
+                      join ins in context.Instructors
+                      on dept.Id equals ins.DepartmentId
+                      into inss
+                      where inss.Count() > 2
+                      select new
+                      {
+                          Department = dept,
+                          Instructors = inss
+                      }).ToLookup(a => a.Department, a => a.Instructors);
+
+
+            foreach (var item in result)
+            {
+                Console.Write("Key: "); item.Key.Print();
+                Console.WriteLine("Elements: ");
+                foreach (var std in item) std.PrintAll();
+                Console.WriteLine("------------------------------------\n");
+            }
+
+            #endregion
 
         }
     }
