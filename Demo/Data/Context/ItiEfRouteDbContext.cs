@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Demo.Data.Context
@@ -21,8 +22,24 @@ namespace Demo.Data.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ITIEF;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False")
-                          .UseLazyLoadingProxies();
+                .UseLazyLoadingProxies()
+          .UseSeeding((dbContext, _) =>
+            {
+                if (dbContext.Set<Student>().Count() == 2)
+                {
+                    dbContext.Database.EnsureCreated();
+                    dbContext.Set<Student>().Add(new Student() { FName = "Karas", LName = "Erian", DeptId = 90 });
+                    dbContext.SaveChanges();
+                }
+
+            })
+          //.UseAsyncSeeding(async (context, _, cancellationToken) =>
+          //{
+              
+          //})
+          ;
             //optionsBuilder.UseLazyLoadingProxies();
             //base.OnConfiguring(optionsBuilder);
         }
