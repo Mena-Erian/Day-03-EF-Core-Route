@@ -1,6 +1,7 @@
 ﻿using HelperUtilities;
 using InhertianceMapping.Data;
 using InhertianceMapping.Data.Modals;
+using Microsoft.EntityFrameworkCore;
 
 namespace InhertianceMapping
 {
@@ -26,7 +27,18 @@ namespace InhertianceMapping
             /// emp.OfType<FullTimeEmployee>().PrintAll();
             #endregion
 
-
+            #region TPC Table Per Class [Table Per Type]
+            //var emps = context.Employees.OfType<FullTimeEmployee>();
+            //emps.PrintAll();
+           
+            /// var emps = context.Employees;
+            /// 
+            /// if (emps.Any())
+            /// {
+            ///     //emps.OfType<FullTimeEmployee>().PrintAll();
+            ///     emps.OfType<PartTimeEmployee>().PrintAll();
+            /// }
+            #endregion
         }
     }
 }

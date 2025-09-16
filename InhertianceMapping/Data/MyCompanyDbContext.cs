@@ -11,24 +11,28 @@ namespace InhertianceMapping.Data
     internal class MyCompanyDbContext : DbContext
     {
         public DbSet<Employee> Employees { get; set; }
-        //public DbSet<FullTimeEmployee> FullTimeEmployees { get; set; }
-        //public DbSet<PartTimeEmployee> PartTimeEmployees { get; set; }
+        public DbSet<FullTimeEmployee> FullTimeEmployees { get; set; }
+        public DbSet<PartTimeEmployee> PartTimeEmployees { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<FullTimeEmployee>().HasBaseType<Employee>();
             //modelBuilder.Entity<PartTimeEmployee>().HasBaseType<Employee>();
 
-            modelBuilder.Entity<Employee>()
-                        .HasDiscriminator<string>("EmployeeType")
-                        .HasValue<FullTimeEmployee>("FTE")
-                        .HasValue<PartTimeEmployee>("PTE")
-                        ;
+            /// modelBuilder.Entity<Employee>()
+            ///             .HasDiscriminator<string>("EmployeeType")
+            ///             .HasValue<FullTimeEmployee>("FTE")
+            ///             .HasValue<PartTimeEmployee>("PTE")
+            ///             ;
+
+            modelBuilder.Entity<PartTimeEmployee>().ToTable(nameof(PartTimeEmployee));
+            modelBuilder.Entity<FullTimeEmployee>().ToTable(nameof(FullTimeEmployee));
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=InheritanceMappingG01;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
             optionsBuilder.UseSeeding((context, _) =>
             {
+                //TPCC
                 /// context.Set<FullTimeEmployee>().Add(
                 ///     new FullTimeEmployee() { Name = "Soha", Age = 20, Salary = 5000, StartDate = DateTime.Now, Address = "Cairo" }
                 ///     );
@@ -36,7 +40,7 @@ namespace InhertianceMapping.Data
                 ///     new PartTimeEmployee() { Name = "Soha", Age = 20, HourRate = 200, CountOfHours = 6, Address = "Alex" }
                 ///     );
 
-
+                //TPH
                 /// context.Set<Employee>().Add(
                 ///    new PartTimeEmployee() { Name = "Hamada", Age = 20, HourRate = 200, CountOfHours = 6, Address = "Alex" }
                 ///    );
@@ -45,6 +49,15 @@ namespace InhertianceMapping.Data
                 ///        new FullTimeEmployee() { Name = "Soha", Age = 20, Salary = 5000, StartDate = DateTime.Now, Address = "Cairo" }
                 ///             );
 
+                //TPC
+                /// context.Set<PartTimeEmployee>().Add(
+                ///    new PartTimeEmployee() { Name = "Hamada", Age = 20, HourRate = 200, CountOfHours = 6, Address = "Alex" }
+                ///    );
+                /// context.Set<Employee>().Add(
+                ///        new FullTimeEmployee() { Name = "Soha", Age = 20, Salary = 5000, StartDate = DateTime.Now, Address = "Cairo" }
+                ///             );
+              
+                
                 //context.SaveChanges();
             });
         }
