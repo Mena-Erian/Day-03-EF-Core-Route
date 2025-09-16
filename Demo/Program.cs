@@ -313,38 +313,116 @@ namespace Demo
             ///     Console.WriteLine("------------------------------------\n");
             /// }
 
-
-            var result = context.Departments.GroupJoin(
-                                             context.Instructors,
-                                             dept => dept.Id,
-                                             ins => ins.DepartmentId,
-                                             (dept, inss) => new
-                                             {
-                                                 Department = dept,
-                                                 Instructors = inss
-                                             }).Where(a => a.Instructors.Count() > 2).ToLookup(a => a.Department, a => a.Instructors);
-
-            result = (from dept in context.Departments
-                      join ins in context.Instructors
-                      on dept.Id equals ins.DepartmentId
-                      into inss
-                      where inss.Count() > 2
-                      select new
-                      {
-                          Department = dept,
-                          Instructors = inss
-                      }).ToLookup(a => a.Department, a => a.Instructors);
-
-
-            foreach (var item in result)
-            {
-                Console.Write("Key: "); item.Key.Print();
-                Console.WriteLine("Elements: ");
-                foreach (var std in item) std.PrintAll();
-                Console.WriteLine("------------------------------------\n");
-            }
+            /// var result = context.Departments.GroupJoin(
+            ///                                  context.Instructors,
+            ///                                  dept => dept.Id,
+            ///                                  ins => ins.DepartmentId,
+            ///                                  (dept, inss) => new
+            ///                                  {
+            ///                                      Department = dept,
+            ///                                      Instructors = inss
+            ///                                  }).Where(a => a.Instructors.Count() > 2).ToLookup(a => a.Department, a => a.Instructors);
+            /// 
+            /// result = (from dept in context.Departments
+            ///           join ins in context.Instructors
+            ///           on dept.Id equals ins.DepartmentId
+            ///           into inss
+            ///           where inss.Count() > 2
+            ///           select new
+            ///           {
+            ///               Department = dept,
+            ///               Instructors = inss
+            ///           }).ToLookup(a => a.Department, a => a.Instructors);
+            /// 
+            /// 
+            /// foreach (var item in result)
+            /// {
+            ///     Console.Write("Key: "); item.Key.Print();
+            ///     Console.WriteLine("Elements: ");
+            ///     foreach (var std in item) std.PrintAll();
+            ///     Console.WriteLine("------------------------------------\n");
+            /// }
 
             #endregion
+
+            #region Left Join
+            /// var result = context.Departments.GroupJoin(
+            ///                                  context.Instructors,
+            ///                                  dept => dept.Id,
+            ///                                  ins => ins.DepartmentId,
+            ///                                  (dept, inss) => new
+            ///                                  {
+            ///                                      Department = dept,
+            ///                                      Instructors = inss.DefaultIfEmpty()
+            ///                                  })
+            ///                                   /*.Select(a => a.Department)*/
+            ///                                   .SelectMany(a => a.Instructors, (a, ins) => new
+            ///                                   {
+            ///                                       DeptId = a.Department.Id,
+            ///                                       DeptName = a.Department.Name,
+            ///                                       InsName = ins,
+            ///                                       //InsId = ins.Id
+            ///                                   });
+            /// result = from dept in context.Departments
+            ///          join ins in context.Instructors
+            ///          on dept.Id equals ins.DepartmentId
+            ///          into inss
+            ///          select new
+            ///          {
+            ///              Department = dept,
+            ///              Instructors = inss.DefaultIfEmpty()
+            ///          }
+            ///          into a
+            ///          from ins in a.Instructors
+            ///          select new
+            ///          {
+            ///              DeptId = a.Department.Id,
+            ///              DeptName = a.Department.Name,
+            ///              InsName = ins,
+            ///          };
+            /// 
+            /// result.PrintAll();
+
+            /// var result = context.Instructors.GroupJoin(
+            ///                                  context.Departments,
+            ///                                  ins => ins.DepartmentId,
+            ///                                  dept => dept.Id,
+            ///                                  (ins, depts) => new
+            ///                                  {
+            ///                                      Instructor = ins,
+            ///                                      Departments = depts
+            ///                                  }).SelectMany(a => a.Departments, (a, depts) => new
+            ///                                  {
+            ///                                      deptId = depts.Id,
+            ///                                      deptName = depts.Name,
+            ///                                      InsId = a.Instructor.Id,
+            ///                                      InsName = a.Instructor.Name,
+            ///                                  });
+            /// 
+            /// result = from ins in context.Instructors
+            ///          join dept in context.Departments
+            ///          on ins.DepartmentId equals dept.Id
+            ///          into depts
+            ///          select new
+            ///          {
+            ///              Instructor = ins,
+            ///              Departments = depts
+            ///          }
+            ///          into a
+            ///          from dept in a.Departments
+            ///          select new
+            ///          {
+            ///              deptId = dept.Id,
+            ///              deptName = dept.Name,
+            ///              InsId = a.Instructor.Id,
+            ///              InsName = a.Instructor.Name,
+            ///          };
+            /// 
+            /// 
+            /// result.PrintAll();
+            #endregion
+
+
 
         }
     }
